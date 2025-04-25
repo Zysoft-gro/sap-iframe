@@ -1,6 +1,6 @@
 // IIFE (Immediately Invoked Function Expression) dla ochrony zmiennych globalnych
-log("MZY SCRIPT");
 (function() {
+    log("MZY SCRIPT");
 // Global variables - teraz są zamknięte w zakresie IIFE
     const LOG_ENABLED = true;
     const IFRAME_URL = 'https://hcm-eu10-sales.hr.cloud.sap/sf/liveprofile?mdfObjectType=cust_kpr2';
