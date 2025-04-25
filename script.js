@@ -166,7 +166,7 @@ function getUserIdFromMeta() {
                 const iframeDocument = getIframeDocument(iframe);
                 if (!iframeDocument) return;
 
-                const dialog2 = iframeDocument.getElementById('__dialog3');
+                const dialog2 = iframeDocument.getElementById('__dialog2');
                 if (dialog2) {
                     dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
                     clearInterval(intervals.dialog2);
