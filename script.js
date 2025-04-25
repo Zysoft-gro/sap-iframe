@@ -27,7 +27,12 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V11");
+
+    function blockSleep(ms) {
+        const end = Date.now() + ms;
+        while (Date.now() < end) {} // pętla blokująca
+    }
+    log("MZY SCRIPT V12");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -199,7 +204,9 @@ let dialog2;
                                     dialog2.style.height='100%';
                                 }
                             }
+                            blockSleep(1000);
                         }
+                            blockSleep(5000);
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
