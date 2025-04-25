@@ -29,10 +29,11 @@ function getUserIdFromMeta() {
     }
 
     function blockSleep(ms) {
+        log("Blok przez " + ms + "ms");
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
     }
-    log("MZY SCRIPT V12");
+    log("MZY SCRIPT V13");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -186,33 +187,33 @@ let dialog2;
             
                 console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
-                    const config = { attributes: true, attributeFilter: ['style','class'] };
+                    const config = { attributes: true, attributeFilter: ['style'/*,'class'*/] };
                     const callback = function(mutationsList, observer) {
+                        console.log(mutationList);
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
                             if (mutation.type === 'attributes') {
                                 if(dialog2.style.width!='100%'){
                                     log("Zmianiam szerokość");
                                     console.log(dialog2.style.width);
-                                    dialog2.classList.add('full-width');
+                                    //dialog2.classList.add('full-width');
                                     dialog2.style.width='100%';
                                 }
                                 if(dialog2.style.height!='100%'){
                                     log("Zmianiam wysokość");
                                     console.log(dialog2.style.height);
-                                    dialog2.classList.add('full-height');
+                                    //dialog2.classList.add('full-height');
                                     dialog2.style.height='100%';
                                 }
                             }
                             blockSleep(1000);
                         }
-                            blockSleep(5000);
+                            blockSleep(1000);
+                        log("Atrybut dialog2");
+                        log(dialog2.getAttribute("data-sap-ui-popup"));
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
-                    clearInterval(intervals.dialog2);
-                    intervals.dialog2 = null;
-                    console.log(dialog2);
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
