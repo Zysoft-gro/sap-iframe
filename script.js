@@ -33,7 +33,7 @@ function getUserIdFromMeta() {
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
     }
-    log("MZY SCRIPT V15");
+    log("MZY SCRIPT V17");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -188,30 +188,6 @@ let dialog2;
                 console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style'/*,'class'*/] };
-                    const callback = function(mutationsList, observer) {
-                        console.log(mutationsList);
-                        for (let mutation of mutationsList) {
-                            log("wewnątrz callbacka");
-                            if (mutation.type === 'attributes') {
-                                if(dialog2.style.width!='100%'){
-                                    log("Zmianiam szerokość");
-                                    console.log(dialog2.style.width);
-                                    //dialog2.classList.add('full-width');
-                                    dialog2.style.width='100%';
-                                }
-                                if(dialog2.style.height!='100%'){
-                                    log("Zmianiam wysokość");
-                                    console.log(dialog2.style.height);
-                                    //dialog2.classList.add('full-height');
-                                    dialog2.style.height='100%';
-                                }
-                            }
-                            blockSleep(1000);
-                        }
-                            blockSleep(1000);
-                        log("Atrybut dialog2");
-                        log(dialog2.getAttribute("data-sap-ui-popup"));
-                    };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
                     clearInterval(intervals.dialog2);
@@ -225,6 +201,30 @@ let dialog2;
         }, CHECK_INTERVAL_MS);
     }
 
+    const callback = function(mutationsList, observer) {
+        console.log(mutationsList);
+        for (let mutation of mutationsList) {
+            log("wewnątrz callbacka");
+            if (mutation.type === 'attributes') {
+                if(dialog2.style.width!='100%'){
+                    log("Zmianiam szerokość");
+                    console.log(dialog2.style.width);
+                    //dialog2.classList.add('full-width');
+                    dialog2.style.width='100%';
+                }
+                if(dialog2.style.height!='100%'){
+                    log("Zmianiam wysokość");
+                    console.log(dialog2.style.height);
+                    //dialog2.classList.add('full-height');
+                    dialog2.style.height='100%';
+                }
+            }
+            blockSleep(1000);
+        }
+            blockSleep(1000);
+        log("Atrybut dialog2");
+        log(dialog2.getAttribute("data-sap-ui-popup"));
+    };
     function startClickSequence(iframe) {
         log("Rozpoczynam sekwencję kliknięć");
 
@@ -286,7 +286,7 @@ let dialog2;
 
     function startDialogMonitoring(iframe) {
         log(`Rozpoczynam monitorowanie dialogu: ${DIALOG_TITLE_TO_MONITOR}`);
-
+        console.log(styleObserver);
         let dialogFound = false;
         let checkCount = 0;
 
@@ -320,7 +320,7 @@ let dialog2;
                     cleanupIntervals();
                 }
             } catch (e) {
-                log("B????d monitorowania dialogu: " + e, true);
+                log("Błąd monitorowania dialogu: " + e, true);
                 if (checkCount >= MAX_DIALOG_CHECKS) {
                     cleanupIntervals();
                 }
@@ -538,10 +538,10 @@ let dialog2;
         }
 
         cleanupIntervals();
-        log("Modal zosta?? zamkni??ty i usuni??ty z DOM");
+        log("Modal został zamknięty i usunięty z DOM");
     }
 
-    // Znajd?? i zamknij modal
+    // Znajdź i zamknij modal
     function cleanupAndCloseModal() {
         const background = document.getElementById('myModal');
         const iframeContainer = document.getElementById('iframeContainer');
