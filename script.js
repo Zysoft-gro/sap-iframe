@@ -187,11 +187,16 @@ function getUserIdFromMeta() {
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
                             if (mutation.type === 'attributes') {
-                                dialog2.style.width='100%';
-                                dialog2.style.height='100%';
-                                dialog2.classList.add('full-width');
-                                dialog2.classList.add('full-height');
-                                dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                                if(dialog2.style.width!='100%'){
+                                    log("Zmianiam szerokość");
+                                    console.log(dialog2.style);
+                                    dialog2.style.width='100%';
+                                }
+                                if(dialog2.style.height!='100%'){
+                                    log("Zmianiam wysokość");
+                                    console.log(dialog2.style);
+                                    dialog2.style.height='100%';
+                                }
                             }
                         }
                     };
