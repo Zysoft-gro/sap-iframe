@@ -167,10 +167,15 @@ function getUserIdFromMeta() {
                 if (!iframeDocument) return;
 
                 const dialog2 = iframeDocument.getElementById('__dialog2');
+            
+                console.log("Znaleziony dialo2:",dialog2);
                 if (dialog2) {
                     dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                    log("Zmieniam szerokość i wysokość dialog2");
+                    console.log(dialog2);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
+                    console.log(dialog2);
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
