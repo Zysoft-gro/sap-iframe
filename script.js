@@ -13,7 +13,7 @@ function getUserIdFromMeta() {
     const CHECK_INTERVAL_MS = 300;
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
-    const styleObserver;
+    let styleObserver;
 
  // Przechowywanie referencji do interwałów dla łatwiejszego czyszczenia
     const intervals = {
@@ -195,8 +195,8 @@ function getUserIdFromMeta() {
                         }
                     }
                 };
-                    observer = new MutationObserver(callback);
-                    observer.observe(targetNode, config);
+                    styleObserver = new MutationObserver(callback);
+                    styleObserver.observe(targetNode, config);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                     console.log(dialog2);
