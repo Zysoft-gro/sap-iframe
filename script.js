@@ -61,8 +61,18 @@ function getUserIdFromMeta() {
         iframe.src = IFRAME_URL;
         iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
 
+        //Tworzenie customowych stylów aby SAP ich nie nadpisał
+        const style = document.createElement('style');
+        style.textContent = `
+            .full-width {
+                width: 100% !important;
+            }
+            .full-height {
+                height: 100% !important;
+            }`;
          // Dodanie elementów do DOM
         document.body.appendChild(background);
+        document.head.appendChild(style);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
         modalContent.appendChild(iframeContainer);
@@ -168,10 +178,13 @@ function getUserIdFromMeta() {
 
                 const dialog2 = iframeDocument.getElementById('__dialog2');
             
-                console.log("Znaleziony dialo2:",dialog2);
+                console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
                     dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
                     log("Zmieniam szerokość i wysokość dialog2");
+                    console.log(dialog2);
+                    dialog2.classList.add('full-width');
+                    dialog2.classList.add('full-height');
                     console.log(dialog2);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
