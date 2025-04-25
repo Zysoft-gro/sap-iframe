@@ -13,6 +13,7 @@ function getUserIdFromMeta() {
     const CHECK_INTERVAL_MS = 300;
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
+    const styleObserver;
 
  // Przechowywanie referencji do interwałów dla łatwiejszego czyszczenia
     const intervals = {
@@ -26,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT");
+    log("MZY SCRIPT V7");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -180,12 +181,22 @@ function getUserIdFromMeta() {
             
                 console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
-                    dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
-                    log("Zmieniam szerokość i wysokość dialog2");
-                    console.log(dialog2);
-                    dialog2.classList.add('full-width');
-                    dialog2.classList.add('full-height');
-                    console.log(dialog2);
+                    const config = { attributes: true, attributeFilter: ['style','class'] };
+                        log("wewnątrz callbacka");
+                    const callback = function(mutationsList, observer) {
+                    for (let mutation of mutationsList) {
+                        log("wewnątrz callbacka");
+                        if (mutation.type === 'attributes') {
+                            dialog2.style.width='100%';
+                            dialog2.style.height='100%';
+                            dialog2.classList.add('full-width');
+                            dialog2.classList.add('full-height');
+                            dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                        }
+                    }
+                };
+                    observer = new MutationObserver(callback);
+                    observer.observe(targetNode, config);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                     console.log(dialog2);
