@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V0.1");
+    log("MZY SCRIPT V10");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -182,19 +182,21 @@ function getUserIdFromMeta() {
                 console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
-                        log("wewnątrz callbacka");
                     const callback = function(mutationsList, observer) {
+                        log("wewnątrz callbacka");
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
                             if (mutation.type === 'attributes') {
                                 if(dialog2.style.width!='100%'){
                                     log("Zmianiam szerokość");
-                                    console.log(dialog2.style);
+                                    console.log(dialog2.style.width);
+                                    dialog2.addStyleClass('full-width');
                                     dialog2.style.width='100%';
                                 }
                                 if(dialog2.style.height!='100%'){
                                     log("Zmianiam wysokość");
-                                    console.log(dialog2.style);
+                                    console.log(dialog2.style.height);
+                                    dialog2.addStyleClass('full-height');
                                     dialog2.style.height='100%';
                                 }
                             }
