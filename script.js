@@ -33,7 +33,7 @@ function getUserIdFromMeta() {
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
     }
-    log("MZY SCRIPT V17");
+    log("MZY SCRIPT V18");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -286,6 +286,7 @@ let dialog2;
 
     function startDialogMonitoring(iframe) {
         log(`Rozpoczynam monitorowanie dialogu: ${DIALOG_TITLE_TO_MONITOR}`);
+        checkDialog2Style();
         console.log(styleObserver);
         let dialogFound = false;
         let checkCount = 0;
