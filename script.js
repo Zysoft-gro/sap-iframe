@@ -189,7 +189,7 @@ let dialog2;
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style'/*,'class'*/] };
                     const callback = function(mutationsList, observer) {
-                        console.log(mutationList);
+                        console.log(mutationsList);
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
                             if (mutation.type === 'attributes') {
