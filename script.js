@@ -184,19 +184,19 @@ function getUserIdFromMeta() {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
                         log("wewnątrz callbacka");
                     const callback = function(mutationsList, observer) {
-                    for (let mutation of mutationsList) {
-                        log("wewnątrz callbacka");
-                        if (mutation.type === 'attributes') {
-                            dialog2.style.width='100%';
-                            dialog2.style.height='100%';
-                            dialog2.classList.add('full-width');
-                            dialog2.classList.add('full-height');
-                            dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                        for (let mutation of mutationsList) {
+                            log("wewnątrz callbacka");
+                            if (mutation.type === 'attributes') {
+                                dialog2.style.width='100%';
+                                dialog2.style.height='100%';
+                                dialog2.classList.add('full-width');
+                                dialog2.classList.add('full-height');
+                                dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                            }
                         }
-                    }
-                };
+                    };
                     styleObserver = new MutationObserver(callback);
-                    styleObserver.observe(targetNode, config);
+                    styleObserver.observe(dialog2, config);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                     console.log(dialog2);
