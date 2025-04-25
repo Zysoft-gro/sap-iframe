@@ -4,7 +4,7 @@
 // Global variables - teraz są zamknięte w zakresie IIFE
     const LOG_ENABLED = true;
     const IFRAME_URL = 'https://hcm-eu10-sales.hr.cloud.sap/sf/liveprofile?mdfObjectType=cust_kpr2';
-    const DIALOG_TITLE_TO_MONITOR = 'cust_kpr1:';
+    const DIALOG_TITLE_TO_MONITOR = 'cust_mzy:';
     const CHECK_INTERVAL_MS = 300;
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
