@@ -1,44 +1,49 @@
+function getUserIdFromMeta() {
+    const meta = document.querySelector('meta[name="userId"]');
+    return meta?.content || null;
+}
+
 // IIFE (Immediately Invoked Function Expression) dla ochrony zmiennych globalnych
 (function() {
-// Global variables - teraz są zamknięte w zakresie IIFE
+    // Global variables - teraz s?? zamkni??te w zakresie IIFE
     const LOG_ENABLED = true;
-    const IFRAME_URL = 'https://hcm-eu10-sales.hr.cloud.sap/sf/liveprofile?mdfObjectType=cust_kpr2';
+    const userId = getUserIdFromMeta();
+    const IFRAME_URL = `https://hcm-eu10-sales.hr.cloud.sap/sf/liveprofile?#mobileViewBlock/${userId}/block25712`;
     const DIALOG_TITLE_TO_MONITOR = 'cust_kpr1:';
     const CHECK_INTERVAL_MS = 300;
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
 
-// Przechowywanie referencji do interwałów dla łatwiejszego czyszczenia
+    // Przechowywanie referencji do interwa????w dla ??atwiejszego czyszczenia
     const intervals = {
         buttonCheck: null,
         dialogVisibility: null,
         contentContainer: null
     };
-
+    
     function log(message, isError = false) {
         if (LOG_ENABLED) {
             isError ? console.error(message) : console.log(message);
         }
     }
-
     log("MZY SCRIPT");
-// Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
+    // Sprawdzenie, czy modal ju?? istnieje przed utworzeniem nowego
     function createModal() {
-        // Najpierw sprawdzamy, czy modal już istnieje
+        // Najpierw sprawdzamy, czy modal ju?? istnieje
         const existingModal = document.getElementById('myModal');
         if (existingModal) {
-            // Jeśli istnieje, usuwamy go
+            // Je??li istnieje, usuwamy go
             existingModal.parentNode.removeChild(existingModal);
-            log("Usunięto istniejący modal przed utworzeniem nowego");
+            log("Usuni??to istniej??cy modal przed utworzeniem nowego");
         }
 
-        // Tworzenie elementów UI
+        // Tworzenie element??w UI
         const background = document.createElement('div');
         background.id = 'myModal';
         background.style.cssText = 'position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5); display: block;';
 
         const modalContent = document.createElement('div');
-        modalContent.style.cssText = 'background-color: #0064d9; margin: 4% auto; padding: 20px; border: 1px solid #888; width: 645px; border-radius: 2rem;';
+        modalContent.style.cssText = 'background-color: #ffa200; margin: 4% auto; padding: 20px; border: 1px solid #888; width: 900px; border-radius: 2rem;';
 
         const closeModal = document.createElement('span');
         closeModal.innerHTML = '&times;';
@@ -54,41 +59,41 @@
         const iframe = document.createElement('iframe');
         iframe.id = 'iframe';
         iframe.src = IFRAME_URL;
-        iframe.style.cssText = 'width: 100%; height: 460px; border: none; border-radius: 1.5rem;';
+        iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
 
-        // Dodanie elementów do DOM
+        // Dodanie element??w do DOM
         document.body.appendChild(background);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
         modalContent.appendChild(iframeContainer);
         iframeContainer.appendChild(iframe);
 
-        // Obsługa zdarzeń
-        // Używamy większej liczby zdarzeń dla przycisku zamykania
+        // Obs??uga zdarze??
+        // U??ywamy wi??kszej liczby zdarze?? dla przycisku zamykania
         closeModal.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
-            log("Kliknięto przycisk zamykania (onclick)");
+            log("Klikni??to przycisk zamykania (onclick)");
             closeModalAndCleanup(background, iframeContainer);
         };
 
         closeModal.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            log("Kliknięto przycisk zamykania (addEventListener)");
+            log("Klikni??to przycisk zamykania (addEventListener)");
             closeModalAndCleanup(background, iframeContainer);
         }, false);
 
-        // Dodajemy obsługę klawiatury (Enter/Space)
+        // Dodajemy obs??ug?? klawiatury (Enter/Space)
         closeModal.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                log("Naciśnięto Enter/Space na przycisku zamykania");
+                log("Naci??ni??to Enter/Space na przycisku zamykania");
                 closeModalAndCleanup(background, iframeContainer);
             }
         });
 
-        // Dodajemy wyraźne podświetlenie przy najechaniu
+        // Dodajemy wyra??ne pod??wietlenie przy najechaniu
         closeModal.addEventListener('mouseover', function() {
             this.style.color = 'red';
             this.style.transform = 'scale(1.2)';
@@ -109,7 +114,9 @@
         // Inicjalizacja
         iframe.onload = () => {
             checkContentContainerStyle(iframe);
-            setTimeout(() => startClickSequence(iframe), 800);
+            checkPopupStyle(iframe);
+            checkDialog2Style(iframe);
+            setTimeout(() => startClickSequence(iframe), 1000);
         };
     }
 
@@ -133,8 +140,48 @@
         }, CHECK_INTERVAL_MS);
     }
 
+    function checkPopupStyle(iframe) {
+        intervals.popup = setInterval(() => {
+            try {
+                const iframeDocument = getIframeDocument(iframe);
+                if (!iframeDocument) return;
+
+                const popup = iframeDocument.getElementById('sap-ui-blocklayer-popup');
+                if (popup) {
+                    popup.style.cssText = 'background-color: #e76500; opacity: 1;';
+                    clearInterval(intervals.popup);
+                    intervals.popup = null;
+                }
+            } catch (e) {
+                log('Error accessing iframe content: ' + e, true);
+                clearInterval(intervals.popup);
+                intervals.popup = null;
+            }
+        }, CHECK_INTERVAL_MS);
+    }
+
+    function checkDialog2Style() {
+        intervals.dialog2 = setInterval(() => {
+            try {
+                const iframeDocument = getIframeDocument(iframe);
+                if (!iframeDocument) return;
+
+                const dialog2 = iframeDocument.getElementById('__dialog3');
+                if (dialog2) {
+                    dialog2.style.cssText = 'width: 100% !important; height: 100% !important;';
+                    clearInterval(intervals.dialog2);
+                    intervals.dialog2 = null;
+                }
+            } catch (e) {
+                log('Error accessing iframe content: ' + e, true);
+                clearInterval(intervals.popup);
+                intervals.dialog2 = null;
+            }
+        }, CHECK_INTERVAL_MS);
+    }
+
     function startClickSequence(iframe) {
-        log("Rozpoczynam sekwencję kliknięć");
+        log("Rozpoczynam sekwencj?? klikni????");
 
         intervals.buttonCheck = setInterval(() => {
             try {
@@ -151,7 +198,7 @@
                     // Klikamy w przycisk
                     clickButton(firstButton);
 
-                    // Ustawiamy timeout na kliknięcie drugiego przycisku
+                    // Ustawiamy timeout na klikni??cie drugiego przycisku
                     setTimeout(() => {
                         log("Szukam drugiego przycisku...");
                         const secondInterval = setInterval(() => {
@@ -159,31 +206,31 @@
                                 const updatedDoc = getIframeDocument(iframe);
                                 if (!updatedDoc) return;
 
-                                const secondButton = findButtonInDocument(updatedDoc, "__button12");
+                                const secondButton = findButtonInDocument(updatedDoc, "__button11");
                                 if (secondButton) {
-                                    log("Znaleziono przycisk Dodaj - ID: __button12");
+                                    log("Znaleziono przycisk Dodaj - ID: __button11");
                                     clearInterval(secondInterval);
 
                                     clickButton(secondButton);
                                     startDialogMonitoring(iframe);
                                 }
                             } catch (e) {
-                                log("Błąd podczas szukania drugiego przycisku: " + e, true);
+                                log("B????d podczas szukania drugiego przycisku: " + e, true);
                             }
                         }, CHECK_INTERVAL_MS);
 
-                        // Czyszczenie interwału po czasie
+                        // Czyszczenie interwa??u po czasie
                         setTimeout(() => {
                             clearInterval(secondInterval);
                         }, 10000);
                     }, 800);
                 }
             } catch (e) {
-                log("Błąd podczas sprawdzania przycisków: " + e, true);
+                log("B????d podczas sprawdzania przycisk??w: " + e, true);
             }
         }, CHECK_INTERVAL_MS);
 
-        // Czyszczenie interwału po czasie
+        // Czyszczenie interwa??u po czasie
         setTimeout(() => {
             if (intervals.buttonCheck) {
                 clearInterval(intervals.buttonCheck);
@@ -203,32 +250,32 @@
 
             try {
                 if (checkCount % 15 === 0) {
-                    log(`Monitorowanie dialogu, próba #${checkCount}`);
+                    log(`Monitorowanie dialogu, pr??ba #${checkCount}`);
                 }
 
                 // Sprawdzamy czy dialog jest obecny
                 const isVisible = checkDocumentForDialog(iframe);
 
-                // Dialog został znaleziony po raz pierwszy
+                // Dialog zosta?? znaleziony po raz pierwszy
                 if (isVisible && !dialogFound) {
                     dialogFound = true;
-                    log(`Dialog został znaleziony po raz pierwszy`);
+                    log(`Dialog zosta?? znaleziony po raz pierwszy`);
                 }
 
-                // Dialog był widoczny ale zniknął - zamykamy iframe
+                // Dialog by?? widoczny ale znikn???? - zamykamy iframe
                 if (dialogFound && !isVisible) {
-                    log(`Dialog zniknął - zamykam iframe`);
+                    log(`Dialog znikn???? - zamykam iframe`);
                     cleanupAndCloseModal();
                     return;
                 }
 
-                // Osiągnięto maksymalną liczbę sprawdzeń
+                // Osi??gni??to maksymaln?? liczb?? sprawdze??
                 if (checkCount >= MAX_DIALOG_CHECKS) {
-                    log("Osiągnięto maksymalną liczbę sprawdzeń dialogu");
+                    log("Osi??gni??to maksymaln?? liczb?? sprawdze?? dialogu");
                     cleanupIntervals();
                 }
             } catch (e) {
-                log("Błąd monitorowania dialogu: " + e, true);
+                log("B????d monitorowania dialogu: " + e, true);
                 if (checkCount >= MAX_DIALOG_CHECKS) {
                     cleanupIntervals();
                 }
@@ -236,18 +283,18 @@
         }, DIALOG_CHECK_INTERVAL_MS);
     }
 
-// Funkcja sprawdzająca dokument i jego zagnieżdżone iframe
+    // Funkcja sprawdzaj??ca dokument i jego zagnie??d??one iframe
     function checkDocumentForDialog(iframe, depth = 0) {
-        if (depth > 2) return false; // Ograniczenie głębokości zagnieżdżenia
+        if (depth > 2) return false; // Ograniczenie g????boko??ci zagnie??d??enia
 
         try {
             const doc = getIframeDocument(iframe);
             if (!doc) return false;
 
-            // Sprawdzamy dialog w głównym dokumencie
+            // Sprawdzamy dialog w g????wnym dokumencie
             if (isDialogVisible(doc)) return true;
 
-            // Sprawdzamy wszystkie zagnieżdżone iframe
+            // Sprawdzamy wszystkie zagnie??d??one iframe
             const frames = doc.querySelectorAll('iframe');
             for (const frame of frames) {
                 try {
@@ -255,17 +302,17 @@
                         return true;
                     }
                 } catch (e) {
-                    // Ignorujemy błędy dostępu do iframe z innego źródła
+                    // Ignorujemy b????dy dost??pu do iframe z innego ??r??d??a
                 }
             }
         } catch (e) {
-            log("Błąd podczas sprawdzania dokumentu: " + e, true);
+            log("B????d podczas sprawdzania dokumentu: " + e, true);
         }
 
         return false;
     }
 
-// Optymalizacja sprawdzania widoczności dialogu
+    // Optymalizacja sprawdzania widoczno??ci dialogu
     function isDialogVisible(doc) {
         try {
             // Sprawdzamy dialogi po klasach SAP UI5
@@ -277,7 +324,7 @@
                 '.sapMDialogOpen'
             ];
 
-            // Łączymy selektory dla jednego zapytania
+            // ????czymy selektory dla jednego zapytania
             const dialogElements = doc.querySelectorAll(dialogSelectors.join(', '));
 
             for (const dialog of dialogElements) {
@@ -288,7 +335,7 @@
                 }
             }
 
-            // Sprawdzamy nagłówki dialogów
+            // Sprawdzamy nag????wki dialog??w
             const headerSelectors = [
                 '.sapMDialogTitle',
                 '.sapMIBar.sapMHeader-CTX',
@@ -302,7 +349,7 @@
                     header.textContent &&
                     header.textContent.indexOf(DIALOG_TITLE_TO_MONITOR) !== -1) {
 
-                    // Sprawdzamy, czy nagłówek jest częścią widocznego dialogu
+                    // Sprawdzamy, czy nag????wek jest cz????ci?? widocznego dialogu
                     let parent = header.parentElement;
                     while (parent) {
                         if (parent.classList?.contains('sapMDialog') && isElementVisible(parent)) {
@@ -315,20 +362,20 @@
 
             return false;
         } catch (e) {
-            log("Błąd podczas sprawdzania widoczności dialogu: " + e, true);
+            log("B????d podczas sprawdzania widoczno??ci dialogu: " + e, true);
             return false;
         }
     }
 
-// Sprawdzenie czy element jest widoczny
+    // Sprawdzenie czy element jest widoczny
     function isElementVisible(element) {
         const style = getComputedStyle(element);
         return style.display !== 'none' && style.visibility !== 'hidden';
     }
 
-// Zoptymalizowana funkcja do znajdowania przycisku w dokumencie
+    // Zoptymalizowana funkcja do znajdowania przycisku w dokumencie
     function findButtonInDocument(doc, buttonId) {
-        // Próbujemy znaleźć przycisk na różne sposoby
+        // Pr??bujemy znale???? przycisk na r????ne sposoby
         let button = doc.getElementById(buttonId) ||
             doc.querySelector(`button[id="${buttonId}"]`) ||
             doc.querySelector(`button[data-sap-ui="${buttonId}"]`);
@@ -339,7 +386,7 @@
         return findButtonInIframes(doc, buttonId);
     }
 
-// Pomocnicza funkcja do znajdowania przycisku w iframe
+    // Pomocnicza funkcja do znajdowania przycisku w iframe
     function findButtonInIframes(doc, buttonId) {
         const frames = doc.querySelectorAll('iframe');
         for (const frame of frames) {
@@ -353,25 +400,25 @@
 
                 if (button) return button;
 
-                // Rekurencyjne sprawdzenie zagnieżdżonych iframe
+                // Rekurencyjne sprawdzenie zagnie??d??onych iframe
                 button = findButtonInIframes(frameDoc, buttonId);
                 if (button) return button;
             } catch (e) {
-                // Ignorujemy błędy dostępu do iframe z innego źródła
+                // Ignorujemy b????dy dost??pu do iframe z innego ??r??d??a
             }
         }
         return null;
     }
 
-// Zoptymalizowana funkcja klikania przycisku
+    // Zoptymalizowana funkcja klikania przycisku
     function clickButton(button) {
         log("Klikam przycisk");
 
         try {
-            // Standardowe kliknięcie
+            // Standardowe klikni??cie
             button.click();
 
-            // Event kliknięcia
+            // Event klikni??cia
             const mouseEvent = new MouseEvent('click', {
                 bubbles: true,
                 cancelable: true,
@@ -379,20 +426,20 @@
             });
             button.dispatchEvent(mouseEvent);
 
-            // Kliknięcie wewnętrznego elementu (typowe dla SAP UI5)
+            // Klikni??cie wewn??trznego elementu (typowe dla SAP UI5)
             const innerElement = button.querySelector('[id$="-inner"]');
             if (innerElement) {
                 innerElement.click();
             }
 
-            // Wykonanie skryptu w kontekście dokumentu
+            // Wykonanie skryptu w kontek??cie dokumentu
             executeClickScript(button);
         } catch (e) {
-            log("Błąd podczas klikania przycisku: " + e, true);
+            log("B????d podczas klikania przycisku: " + e, true);
         }
     }
 
-// Pomocnicza funkcja do wykonania skryptu klikającego
+    // Pomocnicza funkcja do wykonania skryptu klikaj??cego
     function executeClickScript(button) {
         try {
             const doc = button.ownerDocument;
@@ -400,33 +447,33 @@
             const script = doc.createElement('script');
 
             script.textContent = `
-            (function() {
-                try {
-                    var btn = document.getElementById('${buttonId}');
-                    if (btn) {
-                        btn.click();
-                        
-                        if (window.sap && window.sap.ui) {
-                            var control = sap.ui.getCore().byId('${buttonId}');
-                            if (control && typeof control.firePress === 'function') {
-                                control.firePress();
+                (function() {
+                    try {
+                        var btn = document.getElementById('${buttonId}');
+                        if (btn) {
+                            btn.click();
+                            
+                            if (window.sap && window.sap.ui) {
+                                var control = sap.ui.getCore().byId('${buttonId}');
+                                if (control && typeof control.firePress === 'function') {
+                                    control.firePress();
+                                }
                             }
                         }
+                    } catch(e) {
+                        console.error('B????d w skrypcie klikni??cia:', e);
                     }
-                } catch(e) {
-                    console.error('Błąd w skrypcie kliknięcia:', e);
-                }
-            })();
-        `;
+                })();
+            `;
 
             doc.body.appendChild(script);
             doc.body.removeChild(script);
         } catch (e) {
-            log("Błąd wykonywania skryptu: " + e, true);
+            log("B????d wykonywania skryptu: " + e, true);
         }
     }
 
-// Bezpieczne pobieranie dokumentu z iframe
+    // Bezpieczne pobieranie dokumentu z iframe
     function getIframeDocument(iframe) {
         try {
             return iframe.contentDocument || (iframe.contentWindow?.contentWindow.document);
@@ -435,7 +482,7 @@
         }
     }
 
-// Zamknięcie modalu i wyczyszczenie zasobów
+    // Zamkni??cie modalu i wyczyszczenie zasob??w
     function closeModalAndCleanup(background, iframeContainer) {
         background.style.display = 'none';
         iframeContainer.innerHTML = '';
@@ -446,10 +493,10 @@
         }
 
         cleanupIntervals();
-        log("Modal został zamknięty i usunięty z DOM");
+        log("Modal zosta?? zamkni??ty i usuni??ty z DOM");
     }
 
-// Znajdź i zamknij modal
+    // Znajd?? i zamknij modal
     function cleanupAndCloseModal() {
         const background = document.getElementById('myModal');
         const iframeContainer = document.getElementById('iframeContainer');
@@ -467,10 +514,10 @@
         }
 
         cleanupIntervals();
-        log("Modal został zamknięty i usunięty z DOM");
+        log("Modal zosta?? zamkni??ty i usuni??ty z DOM");
     }
 
-// Wyczyść wszystkie interwały
+    // Wyczy???? wszystkie interwa??y
     function cleanupIntervals() {
         Object.keys(intervals).forEach(key => {
             if (intervals[key]) {
@@ -480,8 +527,8 @@
         });
     }
 
-// Inicjalizacja
+    // Inicjalizacja
     createModal();
 
-// Zamknięcie IIFE
+    // Zamkni??cie IIFE
 })();
