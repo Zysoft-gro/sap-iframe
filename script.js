@@ -1,4 +1,5 @@
 // IIFE (Immediately Invoked Function Expression) dla ochrony zmiennych globalnych
+//mzy
 (function() {
 // Global variables - teraz są zamknięte w zakresie IIFE
     const LOG_ENABLED = true;
