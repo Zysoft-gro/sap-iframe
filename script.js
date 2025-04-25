@@ -33,7 +33,7 @@ function getUserIdFromMeta() {
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
     }
-    log("MZY SCRIPT V13");
+    log("MZY SCRIPT V14");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -214,6 +214,8 @@ let dialog2;
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
+                    clearInterval(intervals.popup);
+                    intervals.dialog2 = null;
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
