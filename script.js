@@ -33,7 +33,7 @@ function getUserIdFromMeta() {
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
     }
-    log("MZY SCRIPT V14");
+    log("MZY SCRIPT V15");
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
          // Najpierw sprawdzamy, czy modal już istnieje
@@ -214,12 +214,12 @@ let dialog2;
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
-                    clearInterval(intervals.popup);
+                    clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
-                clearInterval(intervals.popup);
+                clearInterval(intervals.dialog2);
                 intervals.dialog2 = null;
             }
         }, CHECK_INTERVAL_MS);
