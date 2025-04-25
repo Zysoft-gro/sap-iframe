@@ -5,7 +5,7 @@ function getUserIdFromMeta() {
 
 // IIFE (Immediately Invoked Function Expression) dla ochrony zmiennych globalnych
 (function() {
-    // Global variables - teraz s?? zamkni??te w zakresie IIFE
+ // Global variables - teraz są zamknięte w zakresie IIFE
     const LOG_ENABLED = true;
     const userId = getUserIdFromMeta();
     const IFRAME_URL = `https://hcm-eu10-sales.hr.cloud.sap/sf/liveprofile?#mobileViewBlock/${userId}/block25712`;
@@ -14,7 +14,7 @@ function getUserIdFromMeta() {
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
 
-    // Przechowywanie referencji do interwa????w dla ??atwiejszego czyszczenia
+ // Przechowywanie referencji do interwałów dla łatwiejszego czyszczenia
     const intervals = {
         buttonCheck: null,
         dialogVisibility: null,
@@ -27,17 +27,17 @@ function getUserIdFromMeta() {
         }
     }
     log("MZY SCRIPT");
-    // Sprawdzenie, czy modal ju?? istnieje przed utworzeniem nowego
+ // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
-        // Najpierw sprawdzamy, czy modal ju?? istnieje
+         // Najpierw sprawdzamy, czy modal już istnieje
         const existingModal = document.getElementById('myModal');
         if (existingModal) {
-            // Je??li istnieje, usuwamy go
+             // Jeśli istnieje, usuwamy go
             existingModal.parentNode.removeChild(existingModal);
-            log("Usuni??to istniej??cy modal przed utworzeniem nowego");
+             log("Usunięto istniejący modal przed utworzeniem nowego");
         }
 
-        // Tworzenie element??w UI
+         // Tworzenie elementów UI
         const background = document.createElement('div');
         background.id = 'myModal';
         background.style.cssText = 'position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5); display: block;';
@@ -61,39 +61,39 @@ function getUserIdFromMeta() {
         iframe.src = IFRAME_URL;
         iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
 
-        // Dodanie element??w do DOM
+         // Dodanie elementów do DOM
         document.body.appendChild(background);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
         modalContent.appendChild(iframeContainer);
         iframeContainer.appendChild(iframe);
 
-        // Obs??uga zdarze??
-        // U??ywamy wi??kszej liczby zdarze?? dla przycisku zamykania
+         // Obsługa zdarzeń
+         // Używamy większej liczby zdarzeń dla przycisku zamykania
         closeModal.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
-            log("Klikni??to przycisk zamykania (onclick)");
+             log("Kliknięto przycisk zamykania (onclick)");
             closeModalAndCleanup(background, iframeContainer);
         };
 
         closeModal.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            log("Klikni??to przycisk zamykania (addEventListener)");
+             log("Kliknięto przycisk zamykania (addEventListener)");
             closeModalAndCleanup(background, iframeContainer);
         }, false);
 
-        // Dodajemy obs??ug?? klawiatury (Enter/Space)
+         // Dodajemy obsługę klawiatury (Enter/Space)
         closeModal.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                log("Naci??ni??to Enter/Space na przycisku zamykania");
+                 log("Naciśnięto Enter/Space na przycisku zamykania");
                 closeModalAndCleanup(background, iframeContainer);
             }
         });
 
-        // Dodajemy wyra??ne pod??wietlenie przy najechaniu
+         // Dodajemy wyraźne podświetlenie przy najechaniu
         closeModal.addEventListener('mouseover', function() {
             this.style.color = 'red';
             this.style.transform = 'scale(1.2)';
@@ -181,7 +181,7 @@ function getUserIdFromMeta() {
     }
 
     function startClickSequence(iframe) {
-        log("Rozpoczynam sekwencj?? klikni????");
+        log("Rozpoczynam sekwencję kliknięć");
 
         intervals.buttonCheck = setInterval(() => {
             try {
@@ -198,7 +198,7 @@ function getUserIdFromMeta() {
                     // Klikamy w przycisk
                     clickButton(firstButton);
 
-                    // Ustawiamy timeout na klikni??cie drugiego przycisku
+                     // Ustawiamy timeout na kliknięcie drugiego przycisku
                     setTimeout(() => {
                         log("Szukam drugiego przycisku...");
                         const secondInterval = setInterval(() => {
@@ -215,22 +215,22 @@ function getUserIdFromMeta() {
                                     startDialogMonitoring(iframe);
                                 }
                             } catch (e) {
-                                log("B????d podczas szukania drugiego przycisku: " + e, true);
+                                 log("Błąd podczas szukania drugiego przycisku: " + e, true);
                             }
                         }, CHECK_INTERVAL_MS);
 
-                        // Czyszczenie interwa??u po czasie
+                         // Czyszczenie interwału po czasie
                         setTimeout(() => {
                             clearInterval(secondInterval);
                         }, 10000);
                     }, 800);
                 }
             } catch (e) {
-                log("B????d podczas sprawdzania przycisk??w: " + e, true);
+                 log("Błąd podczas sprawdzania przycisków: " + e, true);
             }
         }, CHECK_INTERVAL_MS);
 
-        // Czyszczenie interwa??u po czasie
+        // Czyszczenie interwału po czasie
         setTimeout(() => {
             if (intervals.buttonCheck) {
                 clearInterval(intervals.buttonCheck);
@@ -250,28 +250,28 @@ function getUserIdFromMeta() {
 
             try {
                 if (checkCount % 15 === 0) {
-                    log(`Monitorowanie dialogu, pr??ba #${checkCount}`);
+                    log(`Monitorowanie dialogu, próba #${checkCount}`);
                 }
 
                 // Sprawdzamy czy dialog jest obecny
                 const isVisible = checkDocumentForDialog(iframe);
 
-                // Dialog zosta?? znaleziony po raz pierwszy
+                // Dialog został znaleziony po raz pierwszy
                 if (isVisible && !dialogFound) {
                     dialogFound = true;
-                    log(`Dialog zosta?? znaleziony po raz pierwszy`);
+                    log(`Dialog został znaleziony po raz pierwszy`);
                 }
 
-                // Dialog by?? widoczny ale znikn???? - zamykamy iframe
+                // Dialog był widoczny ale zniknął - zamykamy iframe
                 if (dialogFound && !isVisible) {
-                    log(`Dialog znikn???? - zamykam iframe`);
+                    log(`Dialog zniknął - zamykam iframe`);
                     cleanupAndCloseModal();
                     return;
                 }
 
-                // Osi??gni??to maksymaln?? liczb?? sprawdze??
+                // Osiągnięto maksymalną liczbę sprawdzeń
                 if (checkCount >= MAX_DIALOG_CHECKS) {
-                    log("Osi??gni??to maksymaln?? liczb?? sprawdze?? dialogu");
+                    log("Osiągnięto maksymalną liczbę sprawdzeń dialogu");
                     cleanupIntervals();
                 }
             } catch (e) {
@@ -283,18 +283,18 @@ function getUserIdFromMeta() {
         }, DIALOG_CHECK_INTERVAL_MS);
     }
 
-    // Funkcja sprawdzaj??ca dokument i jego zagnie??d??one iframe
+ // Funkcja sprawdzająca dokument i jego zagnieżdżone iframe
     function checkDocumentForDialog(iframe, depth = 0) {
-        if (depth > 2) return false; // Ograniczenie g????boko??ci zagnie??d??enia
+        if (depth > 2) return false; // Ograniczenie głębokości zagnieżdżenia
 
         try {
             const doc = getIframeDocument(iframe);
             if (!doc) return false;
 
-            // Sprawdzamy dialog w g????wnym dokumencie
+            // Sprawdzamy dialog w głównym dokumencie
             if (isDialogVisible(doc)) return true;
 
-            // Sprawdzamy wszystkie zagnie??d??one iframe
+            // Sprawdzamy wszystkie zagnieżdżone iframe
             const frames = doc.querySelectorAll('iframe');
             for (const frame of frames) {
                 try {
@@ -302,17 +302,17 @@ function getUserIdFromMeta() {
                         return true;
                     }
                 } catch (e) {
-                    // Ignorujemy b????dy dost??pu do iframe z innego ??r??d??a
+                    // Ignorujemy błędy dostępu do iframe z innego źródła
                 }
             }
         } catch (e) {
-            log("B????d podczas sprawdzania dokumentu: " + e, true);
+            log("Błąd podczas sprawdzania dokumentu: " + e, true);
         }
 
         return false;
     }
 
-    // Optymalizacja sprawdzania widoczno??ci dialogu
+    // Optymalizacja sprawdzania widoczności dialogu
     function isDialogVisible(doc) {
         try {
             // Sprawdzamy dialogi po klasach SAP UI5
@@ -324,7 +324,7 @@ function getUserIdFromMeta() {
                 '.sapMDialogOpen'
             ];
 
-            // ????czymy selektory dla jednego zapytania
+            // Łączymy selektory dla jednego zapytania
             const dialogElements = doc.querySelectorAll(dialogSelectors.join(', '));
 
             for (const dialog of dialogElements) {
@@ -335,7 +335,7 @@ function getUserIdFromMeta() {
                 }
             }
 
-            // Sprawdzamy nag????wki dialog??w
+            // Sprawdzamy nagłówki dialogów
             const headerSelectors = [
                 '.sapMDialogTitle',
                 '.sapMIBar.sapMHeader-CTX',
@@ -349,7 +349,7 @@ function getUserIdFromMeta() {
                     header.textContent &&
                     header.textContent.indexOf(DIALOG_TITLE_TO_MONITOR) !== -1) {
 
-                    // Sprawdzamy, czy nag????wek jest cz????ci?? widocznego dialogu
+                    // Sprawdzamy, czy nagłówek jest częścią widocznego dialogu
                     let parent = header.parentElement;
                     while (parent) {
                         if (parent.classList?.contains('sapMDialog') && isElementVisible(parent)) {
@@ -362,7 +362,7 @@ function getUserIdFromMeta() {
 
             return false;
         } catch (e) {
-            log("B????d podczas sprawdzania widoczno??ci dialogu: " + e, true);
+            log("Błąd podczas sprawdzania widoczności dialogu: " + e, true);
             return false;
         }
     }
@@ -375,7 +375,7 @@ function getUserIdFromMeta() {
 
     // Zoptymalizowana funkcja do znajdowania przycisku w dokumencie
     function findButtonInDocument(doc, buttonId) {
-        // Pr??bujemy znale???? przycisk na r????ne sposoby
+        // Próbujemy znaleźć przycisk na różne sposoby
         let button = doc.getElementById(buttonId) ||
             doc.querySelector(`button[id="${buttonId}"]`) ||
             doc.querySelector(`button[data-sap-ui="${buttonId}"]`);
@@ -400,11 +400,11 @@ function getUserIdFromMeta() {
 
                 if (button) return button;
 
-                // Rekurencyjne sprawdzenie zagnie??d??onych iframe
+                // Rekurencyjne sprawdzenie zagnieżdżonych iframe
                 button = findButtonInIframes(frameDoc, buttonId);
                 if (button) return button;
             } catch (e) {
-                // Ignorujemy b????dy dost??pu do iframe z innego ??r??d??a
+                // Ignorujemy błędy dostępu do iframe z innego źródła
             }
         }
         return null;
@@ -415,10 +415,10 @@ function getUserIdFromMeta() {
         log("Klikam przycisk");
 
         try {
-            // Standardowe klikni??cie
+            // Standardowe kliknięcie
             button.click();
 
-            // Event klikni??cia
+            // Event kliknięcia
             const mouseEvent = new MouseEvent('click', {
                 bubbles: true,
                 cancelable: true,
@@ -426,20 +426,20 @@ function getUserIdFromMeta() {
             });
             button.dispatchEvent(mouseEvent);
 
-            // Klikni??cie wewn??trznego elementu (typowe dla SAP UI5)
+            // Kliknięcie wewnętrznego elementu (typowe dla SAP UI5)
             const innerElement = button.querySelector('[id$="-inner"]');
             if (innerElement) {
                 innerElement.click();
             }
 
-            // Wykonanie skryptu w kontek??cie dokumentu
+            // Wykonanie skryptu w kontekście dokumentu
             executeClickScript(button);
         } catch (e) {
-            log("B????d podczas klikania przycisku: " + e, true);
+            log("Błąd podczas klikania przycisku: " + e, true);
         }
     }
 
-    // Pomocnicza funkcja do wykonania skryptu klikaj??cego
+    // Pomocnicza funkcja do wykonania skryptu klikającego
     function executeClickScript(button) {
         try {
             const doc = button.ownerDocument;
@@ -461,7 +461,7 @@ function getUserIdFromMeta() {
                             }
                         }
                     } catch(e) {
-                        console.error('B????d w skrypcie klikni??cia:', e);
+                        console.error('Błąd w skrypcie kliknięcia:', e);
                     }
                 })();
             `;
@@ -469,7 +469,7 @@ function getUserIdFromMeta() {
             doc.body.appendChild(script);
             doc.body.removeChild(script);
         } catch (e) {
-            log("B????d wykonywania skryptu: " + e, true);
+            log("Błąd wykonywania skryptu: " + e, true);
         }
     }
 
@@ -482,7 +482,7 @@ function getUserIdFromMeta() {
         }
     }
 
-    // Zamkni??cie modalu i wyczyszczenie zasob??w
+    // Zamknięcie modalu i wyczyszczenie zasobów
     function closeModalAndCleanup(background, iframeContainer) {
         background.style.display = 'none';
         iframeContainer.innerHTML = '';
@@ -514,10 +514,10 @@ function getUserIdFromMeta() {
         }
 
         cleanupIntervals();
-        log("Modal zosta?? zamkni??ty i usuni??ty z DOM");
+        log("Modal został zamknięty i usunięty z DOM");
     }
 
-    // Wyczy???? wszystkie interwa??y
+    // Wyczyść wszystkie interwały
     function cleanupIntervals() {
         Object.keys(intervals).forEach(key => {
             if (intervals[key]) {
@@ -530,5 +530,5 @@ function getUserIdFromMeta() {
     // Inicjalizacja
     createModal();
 
-    // Zamkni??cie IIFE
+    // Zamknięcie IIFE
 })();
