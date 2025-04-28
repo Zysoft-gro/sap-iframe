@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V43");
+    log("MZY SCRIPT V44");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
