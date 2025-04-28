@@ -210,7 +210,7 @@ function getUserIdFromMeta() {
                             }
                             blockSleep(1000);
                         }
-                            blockSleep(30000);
+                            blockSleep(10000);
                         console.log("styleObserver", styleObserver);
                         log("Atrybut dialog2");
                         log(dialog2.getAttribute("data-sap-ui-popup"));
