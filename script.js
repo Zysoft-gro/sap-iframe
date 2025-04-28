@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V19");
+    log("MZY SCRIPT V20");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -188,7 +188,7 @@ function getUserIdFromMeta() {
             
                 console.log("Znaleziony dialog2:",dialog2);
                 if (dialog2) {
-                    const config = { attributes: true, attributeFilter: ['style'/*,'class'*/] };
+                    const config = { attributes: true, attributeFilter: ['style','class'] };
                     
                     const callback = function(mutationsList, observer) {
                         console.log(mutationsList);
@@ -198,13 +198,13 @@ function getUserIdFromMeta() {
                                 if(dialog2.style.width!='100%'){
                                     log("Zmianiam szerokość");
                                     console.log(dialog2.style.width);
-                                    //dialog2.classList.add('full-width');
+                                    dialog2.classList.add('full-width');
                                     dialog2.style.width='100%';
                                 }
                                 if(dialog2.style.height!='100%'){
                                     log("Zmianiam wysokość");
                                     console.log(dialog2.style.height);
-                                    //dialog2.classList.add('full-height');
+                                    dialog2.classList.add('full-height');
                                     dialog2.style.height='100%';
                                 }
                             }
@@ -289,8 +289,6 @@ function getUserIdFromMeta() {
 
     function startDialogMonitoring(iframe) {
         log(`Rozpoczynam monitorowanie dialogu: ${DIALOG_TITLE_TO_MONITOR}`);
-        checkDialog2Style();
-        console.log(styleObserver);
         let dialogFound = false;
         let checkCount = 0;
 
@@ -309,6 +307,7 @@ function getUserIdFromMeta() {
                 if (isVisible && !dialogFound) {
                     dialogFound = true;
                     log(`Dialog został znaleziony po raz pierwszy`);
+                    checkDialog2Style();
                 }
 
                 // Dialog był widoczny ale zniknął - zamykamy iframe
