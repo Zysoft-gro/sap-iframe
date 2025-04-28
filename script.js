@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V35");
+    log("MZY SCRIPT V36");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -65,7 +65,6 @@ function getUserIdFromMeta() {
 
          // Dodanie elementów do DOM
         document.body.appendChild(background);
-        document.head.appendChild(style);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
         modalContent.appendChild(iframeContainer);
