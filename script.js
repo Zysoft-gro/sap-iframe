@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V37");
+    log("MZY SCRIPT V38");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -174,8 +174,8 @@ function getUserIdFromMeta() {
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
                     const callback = function(mutationsList, observer) {
-                        if(dialog2.style.width!='100%') dialog2.style.width='100%';
-                        if(dialog2.style.height!='100%') dialog2.style.height='100%';
+                        log("wewnatrz callbacku")
+                        resizeDialog(dialog2);
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
@@ -191,6 +191,24 @@ function getUserIdFromMeta() {
         }, CHECK_INTERVAL_MS);
     }
 
+     function resizeDialog(dialog){
+         log("dialog width:");
+         log(dialog.style.width);
+         log("dialog height:");
+         log(dialog.style.height);
+         if(dialog.style.width!='100%'){
+             log("Zmieniam szerokość");
+             console.log(dialog.style.width);
+             dialog.classList.add('full-width');
+             dialog.style.width='100%';
+         }
+         if(dialog.style.height!='100%'){
+             log("Zmieniam wysokość");
+             console.log(dialog.style.height);
+             dialog.classList.add('full-height');
+             dialog.style.height='100%';
+         }
+     }
     function startClickSequence(iframe) {
         log("Rozpoczynam sekwencję kliknięć");
 
