@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V44");
+    log("MZY SCRIPT V45");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -189,8 +189,8 @@ function getUserIdFromMeta() {
                     dialog2.style.width = '100%';
                     dialog2.style.height = '100%';
                     
-                    dialog.classList.add('full-width');
-                    dialog.classList.add('full-height');
+                    dialog2.classList.add('full-width');
+                    dialog2.classList.add('full-height');
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
