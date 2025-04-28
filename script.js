@@ -190,34 +190,21 @@ function getUserIdFromMeta() {
             
                 console.log("Znaleziony dialog2:", dialog2);
                 if (dialog2) {
-                    const config = { attributes: true, attributeFilter: ['style','class'] };
-                    
-                    const callback = function(mutationsList, observer) {
+                    //const config = { attributes: true, attributeFilter: ['style','class'] };
+                    resizeDialog(dialog2);
+                   /* const callback = function(mutationsList, observer) {
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
-                            if (mutation.type === 'attributes') {
-                                if(dialog2.style.width!='100%'){
-                                    log("Zmianiam szerokość");
-                                    console.log(dialog2.style.width);
-                                    dialog2.classList.add('full-width');
-                                    dialog2.style.width='100%';
-                                }
-                                if(dialog2.style.height!='100%'){
-                                    log("Zmianiam wysokość");
-                                    console.log(dialog2.style.height);
-                                    dialog2.classList.add('full-height');
-                                    dialog2.style.height='100%';
-                                }
-                            }
+                            resizeDialog(dialog2);
                             blockSleep(1000);
-                        }
-                            blockSleep(10000);
+                        }z
                         console.log("styleObserver", styleObserver);
                         log("Atrybut dialog2");
                         log(dialog2.getAttribute("data-sap-ui-popup"));
-                    };
-                    styleObserver = new MutationObserver(callback);
-                    styleObserver.observe(dialog2, config);
+                    };*/
+                            blockSleep(10000);
+                  //  styleObserver = new MutationObserver(callback);
+                  //  styleObserver.observe(dialog2, config);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
@@ -227,6 +214,21 @@ function getUserIdFromMeta() {
                 intervals.dialog2 = null;
             }
         }, CHECK_INTERVAL_MS);
+    }
+    
+    function resizeDialog(dialog){
+        if(dialog2.style.width!='100%'){
+            log("Zmianiam szerokość");
+            console.log(dialog2.style.width);
+            dialog2.classList.add('full-width');
+            dialog2.style.width='100%';
+        }
+        if(dialog2.style.height!='100%'){
+            log("Zmianiam wysokość");
+            console.log(dialog2.style.height);
+            dialog2.classList.add('full-height');
+            dialog2.style.height='100%';
+        }
     }
 
     function startClickSequence(iframe) {
