@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V45");
+    log("MZY SCRIPT V46");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -61,23 +61,8 @@ function getUserIdFromMeta() {
         iframe.id = 'iframe';
         iframe.src = IFRAME_URL;
         iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
-        
-      //Tworzenie customowych stylów aby SAP ich nie nadpisał
-         const style = document.createElement('style');
-         style.textContent = `
-             .full-width {
-                 width: 100% !important;
-                 max-width: 100% !important;
-                 left: 0px;
-             }
-             .full-height {
-                 height: 100% !important;
-                 max-height: 100% !important;
-                 top: 0px;
-             }`;
-        
+    
          // Dodanie elementów do DOM
-        document.head.appendChild(style);
         document.body.appendChild(background);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
@@ -178,12 +163,27 @@ function getUserIdFromMeta() {
 
     
     function checkDialog2Style(iframe) {
+      //Tworzenie customowych stylów aby SAP ich nie nadpisał
+        
         intervals.dialog2 = setInterval(() => {
             try {
                 const iframeDocument = getIframeDocument(iframe);
                 if (!iframeDocument) return;
-            
-               let  dialog2 = iframeDocument.getElementById('__dialog2');
+                const style = iframeDocument.createElement('style');
+                style.textContent = `
+                    .full-width {
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        left: 0px;
+                    }
+                    .full-height {
+                        height: 100% !important;
+                        max-height: 100% !important;
+                        top: 0px;
+                    }`;
+                console.log(iframeDocument);
+                iframeDocument.head.appendChild(style);
+                let  dialog2 = iframeDocument.getElementById('__dialog2');
             
                 if (dialog2) {
                     dialog2.style.width = '100%';
