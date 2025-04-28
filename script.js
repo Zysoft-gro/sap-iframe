@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V29");
+    log("MZY SCRIPT V30");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -185,9 +185,13 @@ function getUserIdFromMeta() {
             try {
                 log("Szukam dialogu2");
                 const iframeDocument = getIframeDocument(iframe);
-                if (!iframeDocument) return;
-
-               let  dialog2 = iframeDocument.getElementById('__dialog2');
+                console.log("iframe",iframeDocument);
+                console.log("iframe",iframe);
+                if (!iframeDocument) {
+                    log("iframe nie istnieje");
+                    return;
+                }
+               let  dialog2 = iframeDocument.getElementById('__dialog3');
             
                 console.log("Znaleziony dialog2:", dialog2);
                 if (dialog2) {
