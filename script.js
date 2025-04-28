@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V46");
+    log("MZY SCRIPT V47");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -163,34 +163,27 @@ function getUserIdFromMeta() {
 
     
     function checkDialog2Style(iframe) {
-      //Tworzenie customowych stylów aby SAP ich nie nadpisał
         
         intervals.dialog2 = setInterval(() => {
             try {
                 const iframeDocument = getIframeDocument(iframe);
                 if (!iframeDocument) return;
-                const style = iframeDocument.createElement('style');
-                style.textContent = `
-                    .full-width {
-                        width: 100% !important;
-                        max-width: 100% !important;
-                        left: 0px;
-                    }
-                    .full-height {
-                        height: 100% !important;
-                        max-height: 100% !important;
-                        top: 0px;
-                    }`;
-                console.log(iframeDocument);
-                iframeDocument.head.appendChild(style);
                 let  dialog2 = iframeDocument.getElementById('__dialog2');
             
                 if (dialog2) {
-                    dialog2.style.width = '100%';
-                    dialog2.style.height = '100%';
-                    
-                    dialog2.classList.add('full-width');
-                    dialog2.classList.add('full-height');
+                    const style = iframeDocument.createElement('style');
+                    //Tworzenie customowych klas stylów aby SAP ich nie nadpisał
+                    style.textContent = `
+                        .full-window {
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            left: 0px !important;
+                            height: 100% !important;
+                            max-height: 100% !important;
+                            top: 0px !important;
+                        }`;
+                    iframeDocument.head.appendChild(style);
+                    dialog2.classList.add('full-window');
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
