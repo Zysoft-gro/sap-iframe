@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V41");
+    log("MZY SCRIPT V42");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -115,6 +115,7 @@ function getUserIdFromMeta() {
         // Inicjalizacja
         iframe.onload = () => {
             checkContentContainerStyle(iframe);
+            checkDialog2Style(iframe);
             checkPopupStyle(iframe);
             setTimeout(() => startClickSequence(iframe), 1000);
         };
@@ -170,8 +171,12 @@ function getUserIdFromMeta() {
                let  dialog2 = iframeDocument.getElementById('__dialog2');
             
                 if (dialog2) {
-                    if(dialog2.style.width!='100%') dialog2.style.width='100%';
-                    if(dialog2.style.height!='100%') dialog2.style.height='100%';
+                    dialog2.style.width = '100%';
+                    dialog2.style.height = '100%';
+                    dialog2.style.maxWidth = '100%';
+                    dialog2.style.maxHeight = '100%';
+                    dialog2.style.top = undefined;
+                    dialog2.style.left = undefined;
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
