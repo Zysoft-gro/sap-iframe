@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V30");
+    log("MZY SCRIPT V31");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -132,9 +132,10 @@ function getUserIdFromMeta() {
 
         // Inicjalizacja
         iframe.onload = () => {
+            console.log("Iframe na onload",iframe);
             checkContentContainerStyle(iframe);
+            checkDialog2Style(iframe);
             checkPopupStyle(iframe);
-            checkDialog2Style();
             setTimeout(() => startClickSequence(iframe), 1000);
         };
     }
@@ -185,7 +186,7 @@ function getUserIdFromMeta() {
             try {
                 log("Szukam dialogu2");
                 const iframeDocument = getIframeDocument(iframe);
-                console.log("iframe",iframeDocument);
+                console.log("iframeDocument",iframeDocument);
                 console.log("iframe",iframe);
                 if (!iframeDocument) {
                     log("iframe nie istnieje");
