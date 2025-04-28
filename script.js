@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V36");
+    log("MZY SCRIPT V37");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -174,8 +174,8 @@ function getUserIdFromMeta() {
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
                     const callback = function(mutationsList, observer) {
-                        if(dialog.style.width!='100%') dialog.style.width='100%';
-                        if(dialog.style.height!='100%') dialog.style.height='100%';
+                        if(dialog2.style.width!='100%') dialog2.style.width='100%';
+                        if(dialog2.style.height!='100%') dialog2.style.height='100%';
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
