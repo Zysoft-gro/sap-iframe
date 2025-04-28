@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V21");
+    log("MZY SCRIPT V22");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -247,7 +247,7 @@ function getUserIdFromMeta() {
                     clickButton(firstButton);
 
                      // Ustawiamy timeout na kliknięcie drugiego przycisku
-/*                    setTimeout(() => {
+                    setTimeout(() => {
                         log("Szukam drugiego przycisku...");
                         const secondInterval = setInterval(() => {
                             try {
@@ -271,7 +271,7 @@ function getUserIdFromMeta() {
                         setTimeout(() => {
                             clearInterval(secondInterval);
                         }, 10000);
-                    }, 800);*/
+                    }, 800);
                 }
             } catch (e) {
                  log("Błąd podczas sprawdzania przycisków: " + e, true);
@@ -328,6 +328,7 @@ function getUserIdFromMeta() {
                 }
             }
         }, DIALOG_CHECK_INTERVAL_MS);
+        checkDialog2Style();
     }
 
  // Funkcja sprawdzająca dokument i jego zagnieżdżone iframe
