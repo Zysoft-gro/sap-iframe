@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V33");
+    log("MZY SCRIPT V34");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -313,6 +313,7 @@ function getUserIdFromMeta() {
                 if (isVisible && !dialogFound) {
                     dialogFound = true;
                     log(`Dialog został znaleziony po raz pierwszy`);
+                    checkDialog2Style(iframe);
                 }
 
                 // Dialog był widoczny ale zniknął - zamykamy iframe
@@ -334,7 +335,6 @@ function getUserIdFromMeta() {
                 }
             }
         }, DIALOG_CHECK_INTERVAL_MS);
-        checkDialog2Style(iframe);
     }
 
  // Funkcja sprawdzająca dokument i jego zagnieżdżone iframe
