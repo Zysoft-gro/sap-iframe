@@ -190,23 +190,17 @@ function getUserIdFromMeta() {
             
                 console.log("Znaleziony dialog2:", dialog2);
                 if (dialog2) {
-                    //const config = { attributes: true, attributeFilter: ['style','class'] };
-                    resizeDialog(dialog2);
-                   /* const callback = function(mutationsList, observer) {
-                        for (let mutation of mutationsList) {
-                            log("wewnątrz callbacka");
-                            resizeDialog(dialog2);
-                            blockSleep(1000);
-                        }z
-                        console.log("styleObserver", styleObserver);
+                    const config = { attributes: true, attributeFilter: ['style','class'] };
+                    const callback = function(mutationsList, observer) {
+                        resizeDialog(dialog2);
                         log("Atrybut dialog2");
                         log(dialog2.getAttribute("data-sap-ui-popup"));
-                    };*/
-                            blockSleep(10000);
-                  //  styleObserver = new MutationObserver(callback);
-                  //  styleObserver.observe(dialog2, config);
+                    };
+                    styleObserver = new MutationObserver(callback);
+                    styleObserver.observe(dialog2, config);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
+                    blockSleep(5000);
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
