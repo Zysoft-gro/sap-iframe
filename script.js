@@ -13,7 +13,6 @@ function getUserIdFromMeta() {
     const CHECK_INTERVAL_MS = 300;
     const DIALOG_CHECK_INTERVAL_MS = 200;
     const MAX_DIALOG_CHECKS = 1500; // 5 minut przy interwale 200ms
-    let styleObserver;
 
  // Przechowywanie referencji do interwałów dla łatwiejszego czyszczenia
     const intervals = {
@@ -27,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V38");
+    log("MZY SCRIPT V39");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -172,13 +171,6 @@ function getUserIdFromMeta() {
                let  dialog2 = iframeDocument.getElementById('__dialog2');
             
                 if (dialog2) {
-                    const config = { attributes: true, attributeFilter: ['style','class'] };
-                    const callback = function(mutationsList, observer) {
-                        log("wewnatrz callbacku")
-                        resizeDialog(dialog2);
-                    };
-                    styleObserver = new MutationObserver(callback);
-                    styleObserver.observe(dialog2, config);
                     resizeDialog(dialog2);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
