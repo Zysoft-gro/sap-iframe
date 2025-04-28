@@ -27,14 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V34");
-
-    function blockSleep(ms) {
-        log("Blok przez " + ms + "ms");
-        const end = Date.now() + ms;
-        while (Date.now() < end) {} // pętla blokująca
-        log("Koniec blokady");
-    }
+    log("MZY SCRIPT V35");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -70,15 +63,6 @@ function getUserIdFromMeta() {
         iframe.src = IFRAME_URL;
         iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
 
-        //Tworzenie customowych stylów aby SAP ich nie nadpisał
-        const style = document.createElement('style');
-        style.textContent = `
-            .full-width {
-                width: 100% !important;
-            }
-            .full-height {
-                height: 100% !important;
-            }`;
          // Dodanie elementów do DOM
         document.body.appendChild(background);
         document.head.appendChild(style);
@@ -132,7 +116,6 @@ function getUserIdFromMeta() {
 
         // Inicjalizacja
         iframe.onload = () => {
-            console.log("Iframe na onload",iframe);
             checkContentContainerStyle(iframe);
             checkDialog2Style(iframe);
             checkPopupStyle(iframe);
@@ -184,30 +167,22 @@ function getUserIdFromMeta() {
     function checkDialog2Style(iframe) {
         intervals.dialog2 = setInterval(() => {
             try {
-                log("Szukam dialogu2");
                 const iframeDocument = getIframeDocument(iframe);
-                console.log("iframeDocument",iframeDocument);
-                console.log("dialog2 szukany query selectorem",iframeDocument.querySelector('#__dialog2'));
-                if (!iframeDocument) {
-                    log("iframe nie istnieje");
-                    return;
-                }
+                if (!iframeDocument) return;
+            
                let  dialog2 = iframeDocument.getElementById('__dialog2');
             
-                console.log("Znaleziony dialog2:", dialog2);
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
                     const callback = function(mutationsList, observer) {
-                        resizeDialog(dialog2);
-                        log("Atrybut dialog2");
-                        log(dialog2.getAttribute("data-sap-ui-popup"));
+                        if(dialog.style.width!='100%') dialog.style.width='100%';
+                        if(dialog.style.height!='100%') dialog.style.height='100%';
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
                     resizeDialog(dialog2);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
-                    blockSleep(5000);
                 }
             } catch (e) {
                 log('Error accessing iframe content: ' + e, true);
@@ -215,23 +190,6 @@ function getUserIdFromMeta() {
                 intervals.dialog2 = null;
             }
         }, CHECK_INTERVAL_MS);
-    }
-    
-    function resizeDialog(dialog){
-        console.log("dialog width:",dialog.style.width);
-        console.log("dialog height:",dialog.style.height);
-        if(dialog.style.width!='100%'){
-            log("Zmianiam szerokość");
-            console.log(dialog.style.width);
-            dialog.classList.add('full-width');
-            dialog.style.width='100%';
-        }
-        if(dialog.style.height!='100%'){
-            log("Zmianiam wysokość");
-            console.log(dialog.style.height);
-            dialog.classList.add('full-height');
-            dialog.style.height='100%';
-        }
     }
 
     function startClickSequence(iframe) {
