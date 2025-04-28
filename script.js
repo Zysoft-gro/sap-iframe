@@ -27,12 +27,13 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V23");
+    log("MZY SCRIPT V24");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
         const end = Date.now() + ms;
         while (Date.now() < end) {} // pętla blokująca
+        log("Koniec blokady");
     }
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
@@ -133,7 +134,6 @@ function getUserIdFromMeta() {
         iframe.onload = () => {
             checkContentContainerStyle(iframe);
             checkPopupStyle(iframe);
-            checkDialog2Style(iframe);
             setTimeout(() => startClickSequence(iframe), 1000);
         };
     }
@@ -177,21 +177,22 @@ function getUserIdFromMeta() {
             }
         }, CHECK_INTERVAL_MS);
     }
-    let dialog2;
+
+    
     function checkDialog2Style() {
         intervals.dialog2 = setInterval(() => {
             try {
                 const iframeDocument = getIframeDocument(iframe);
+                log("Szukam dialogu2");
                 if (!iframeDocument) return;
 
-                dialog2 = iframeDocument.getElementById('__dialog2');
+               let  dialog2 = iframeDocument.getElementById('__dialog2');
             
-                console.log("Znaleziony dialog2:",dialog2);
+                console.log("Znaleziony dialog2:", dialog2);
                 if (dialog2) {
                     const config = { attributes: true, attributeFilter: ['style','class'] };
                     
                     const callback = function(mutationsList, observer) {
-                        console.log(mutationsList);
                         for (let mutation of mutationsList) {
                             log("wewnątrz callbacka");
                             if (mutation.type === 'attributes') {
