@@ -134,6 +134,7 @@ function getUserIdFromMeta() {
         iframe.onload = () => {
             checkContentContainerStyle(iframe);
             checkPopupStyle(iframe);
+            checkDialog2Style();
             setTimeout(() => startClickSequence(iframe), 1000);
         };
     }
@@ -179,11 +180,11 @@ function getUserIdFromMeta() {
     }
 
     
-    function checkDialog2Style() {
+    function checkDialog2Style(iframe) {
         intervals.dialog2 = setInterval(() => {
             try {
-                const iframeDocument = getIframeDocument(iframe);
                 log("Szukam dialogu2");
+                const iframeDocument = getIframeDocument(iframe);
                 if (!iframeDocument) return;
 
                let  dialog2 = iframeDocument.getElementById('__dialog2');
@@ -328,7 +329,7 @@ function getUserIdFromMeta() {
                 }
             }
         }, DIALOG_CHECK_INTERVAL_MS);
-        checkDialog2Style();
+        checkDialog2Style(iframe);
     }
 
  // Funkcja sprawdzająca dokument i jego zagnieżdżone iframe
