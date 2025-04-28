@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V25");
+    log("MZY SCRIPT V26");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -217,17 +217,17 @@ function getUserIdFromMeta() {
     }
     
     function resizeDialog(dialog){
-        if(dialog2.style.width!='100%'){
+        if(dialog.style.width!='100%'){
             log("Zmianiam szerokość");
-            console.log(dialog2.style.width);
-            dialog2.classList.add('full-width');
-            dialog2.style.width='100%';
+            console.log(dialog.style.width);
+            dialog.classList.add('full-width');
+            dialog.style.width='100%';
         }
-        if(dialog2.style.height!='100%'){
+        if(dialog.style.height!='100%'){
             log("Zmianiam wysokość");
-            console.log(dialog2.style.height);
-            dialog2.classList.add('full-height');
-            dialog2.style.height='100%';
+            console.log(dialog.style.height);
+            dialog.classList.add('full-height');
+            dialog.style.height='100%';
         }
     }
 
