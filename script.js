@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V27");
+    log("MZY SCRIPT V28");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -198,6 +198,7 @@ function getUserIdFromMeta() {
                     };
                     styleObserver = new MutationObserver(callback);
                     styleObserver.observe(dialog2, config);
+                    resizeDialog(dialog2);
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                     blockSleep(5000);
@@ -211,6 +212,8 @@ function getUserIdFromMeta() {
     }
     
     function resizeDialog(dialog){
+        console.log("dialog width:",dialog.style.width);
+        console.log("dialog height:",dialog.style.height);
         if(dialog.style.width!='100%'){
             log("Zmianiam szerokość");
             console.log(dialog.style.width);
