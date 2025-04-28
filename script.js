@@ -266,12 +266,12 @@ function getUserIdFromMeta() {
                                  log("Błąd podczas szukania drugiego przycisku: " + e, true);
                             }
                         }, CHECK_INTERVAL_MS);
-*/
+
                          // Czyszczenie interwału po czasie
                         setTimeout(() => {
                             clearInterval(secondInterval);
                         }, 10000);
-                    }, 800);
+                    }, 800);*/
                 }
             } catch (e) {
                  log("Błąd podczas sprawdzania przycisków: " + e, true);
