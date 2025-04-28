@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V40");
+    log("MZY SCRIPT V41");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -115,7 +115,6 @@ function getUserIdFromMeta() {
         // Inicjalizacja
         iframe.onload = () => {
             checkContentContainerStyle(iframe);
-            checkDialog2Style(iframe);
             checkPopupStyle(iframe);
             setTimeout(() => startClickSequence(iframe), 1000);
         };
