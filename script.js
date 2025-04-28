@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V39");
+    log("MZY SCRIPT V40");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -171,7 +171,8 @@ function getUserIdFromMeta() {
                let  dialog2 = iframeDocument.getElementById('__dialog2');
             
                 if (dialog2) {
-                    resizeDialog(dialog2);
+                    if(dialog2.style.width!='100%') dialog2.style.width='100%';
+                    if(dialog2.style.height!='100%') dialog2.style.height='100%';
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
@@ -183,24 +184,6 @@ function getUserIdFromMeta() {
         }, CHECK_INTERVAL_MS);
     }
 
-     function resizeDialog(dialog){
-         log("dialog width:");
-         log(dialog.style.width);
-         log("dialog height:");
-         log(dialog.style.height);
-         if(dialog.style.width!='100%'){
-             log("Zmieniam szerokość");
-             console.log(dialog.style.width);
-             dialog.classList.add('full-width');
-             dialog.style.width='100%';
-         }
-         if(dialog.style.height!='100%'){
-             log("Zmieniam wysokość");
-             console.log(dialog.style.height);
-             dialog.classList.add('full-height');
-             dialog.style.height='100%';
-         }
-     }
     function startClickSequence(iframe) {
         log("Rozpoczynam sekwencję kliknięć");
 
