@@ -26,7 +26,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V42");
+    log("MZY SCRIPT V43");
     
  // Sprawdzenie, czy modal już istnieje przed utworzeniem nowego
     function createModal() {
@@ -61,8 +61,23 @@ function getUserIdFromMeta() {
         iframe.id = 'iframe';
         iframe.src = IFRAME_URL;
         iframe.style.cssText = 'width: 100%; height: 600px; border: none; border-radius: 1.5rem;';
-
+        
+      //Tworzenie customowych stylów aby SAP ich nie nadpisał
+         const style = document.createElement('style');
+         style.textContent = `
+             .full-width {
+                 width: 100% !important;
+                 max-width: 100% !important;
+                 left: 0px;
+             }
+             .full-height {
+                 height: 100% !important;
+                 max-height: 100% !important;
+                 top: 0px;
+             }`;
+        
          // Dodanie elementów do DOM
+        document.head.appendChild(style);
         document.body.appendChild(background);
         background.appendChild(modalContent);
         modalContent.appendChild(closeModal);
@@ -173,10 +188,9 @@ function getUserIdFromMeta() {
                 if (dialog2) {
                     dialog2.style.width = '100%';
                     dialog2.style.height = '100%';
-                    dialog2.style.maxWidth = '100%';
-                    dialog2.style.maxHeight = '100%';
-                    dialog2.style.top = undefined;
-                    dialog2.style.left = undefined;
+                    
+                    dialog.classList.add('full-width');
+                    dialog.classList.add('full-height');
                     clearInterval(intervals.dialog2);
                     intervals.dialog2 = null;
                 }
