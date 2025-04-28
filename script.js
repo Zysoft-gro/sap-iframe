@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V22");
+    log("MZY SCRIPT V23");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
