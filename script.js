@@ -27,7 +27,7 @@ function getUserIdFromMeta() {
             isError ? console.error(message) : console.log(message);
         }
     }
-    log("MZY SCRIPT V20");
+    log("MZY SCRIPT V21");
 
     function blockSleep(ms) {
         log("Blok przez " + ms + "ms");
@@ -210,7 +210,7 @@ function getUserIdFromMeta() {
                             }
                             blockSleep(1000);
                         }
-                            blockSleep(5000);
+                            blockSleep(30000);
                         console.log("styleObserver", styleObserver);
                         log("Atrybut dialog2");
                         log(dialog2.getAttribute("data-sap-ui-popup"));
@@ -247,7 +247,7 @@ function getUserIdFromMeta() {
                     clickButton(firstButton);
 
                      // Ustawiamy timeout na kliknięcie drugiego przycisku
-                    setTimeout(() => {
+/*                    setTimeout(() => {
                         log("Szukam drugiego przycisku...");
                         const secondInterval = setInterval(() => {
                             try {
@@ -266,7 +266,7 @@ function getUserIdFromMeta() {
                                  log("Błąd podczas szukania drugiego przycisku: " + e, true);
                             }
                         }, CHECK_INTERVAL_MS);
-
+*/
                          // Czyszczenie interwału po czasie
                         setTimeout(() => {
                             clearInterval(secondInterval);
@@ -307,7 +307,6 @@ function getUserIdFromMeta() {
                 if (isVisible && !dialogFound) {
                     dialogFound = true;
                     log(`Dialog został znaleziony po raz pierwszy`);
-                    checkDialog2Style();
                 }
 
                 // Dialog był widoczny ale zniknął - zamykamy iframe
